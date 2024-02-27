@@ -1,0 +1,24 @@
+version: '2'
+
+
+services:
+  raafrontend:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: raa-frontend
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.raafrontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.raafrontend.entrypoints=http"
+      - "traefik.http.routers.raafrontend.rule=Host(`raa.sd.di.huc.knaw.nl`)"
+    volumes:
+      - /home/robz/:/home
+    networks:
+      - traefik-public
+      
+
+networks:
+  traefik-public:
+    external: true
